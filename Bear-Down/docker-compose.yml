@@ -1,0 +1,38 @@
+version: '3'
+services:
+  db:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_USER=root
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+  spring:
+    build: .
+    volumes:
+      - .:/app
+      - spring-vol:/spring
+    command: spring server
+    environment:
+      - DATABASE_URL=postgres://root@db:5432
+      - SPRING_TMP_PATH=/spring
+    # This ensures that the pid namespace is shared between the host
+    # and the container. It's not necessary to be able to run spring
+    # commands, but it is necessary for "spring status" and "spring stop"
+    # to work properly.
+    pid: host
+  web:
+    build: .
+    command: unbuffer bundle exec rails s -p 1337 -b '0.0.0.0'
+    environment:
+      - DATABASE_URL=postgres://root@db:5432
+    volumes:
+      - .:/app
+      - spring-vol:/spring
+    ports:
+      - "1337:1337"
+    depends_on:
+      - db
+      - spring
+volumes:
+  spring-vol:
+  postgres-vol:
