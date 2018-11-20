@@ -5,6 +5,13 @@
 <p>
     Bear Down is a web application that helps you to keep track of where you spend your time study. <br>
 </p>
-<%= button_to "Sign up", "/auth/sign_up", method: :get %>
-<%= button_to "Sign in", "/auth/sign_in", method: :get %>
-<%= button_to "Sign out", "/auth/sign_out", method: :delete %>
+<% if current_user.nil? %>
+	<%= button_to "Sign up", "/auth/sign_up", method: :get %>
+	<%= button_to "Sign in", "/auth/sign_in", method: :get %>
+<% else %>
+	<p> 
+		<%= current_user.email %> welcome back. Time to focus and get work done. 
+	</p>
+	<%= button_to "Sign out", "/auth/sign_out", method: :delete %>
+<% end %>
+
