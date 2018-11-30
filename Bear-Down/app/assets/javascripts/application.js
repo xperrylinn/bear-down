@@ -12,7 +12,15 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
+
+//= require countdown
+//= require jquery
+//= require jquery_ujs
+//= require_self
 //= require_tree .
-('.dropdown-toggle').dropdown()
-().dropdown('toggle')
+// $('.dropdown-toggle').dropdown()
+// ().dropdown('toggle')
+
+$(document).ready(function() {
+	console.log("IS THIS WORKING!?");
+});
