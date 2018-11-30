@@ -38,6 +38,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "paperclip", "~> 6.0.0"
 gem 'devise'
+gem 'countdown'
+gem 'jquery-rails'
 
 # added these gems to attempt to have file uploading work smoothly - alarms
 gem 'carrierwave', '~> 1.0'

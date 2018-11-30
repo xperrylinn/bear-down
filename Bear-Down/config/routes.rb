@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  # get 'time_stamp/create'
+  get 'time_stamp/new'
+  get 'time_stamp/destroy'
+  post 'time_stamp/create', to: 'time_stamp#create'
   resources :subjects
   resources :periods
   devise_for :users, controllers: { sessions: 'users/sessions' }, path: 'auth'
