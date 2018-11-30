@@ -1,0 +1,90 @@
+<script>
+	console.log("hey up top");
+	var today;
+	const second = 1000,
+		      minute = second * 60,
+		      hour = minute * 60,
+		      day = hour * 24;
+	function Calculate(){
+		today = new Date();
+		var start_time = today.toISOString();
+		// var start_time_year = today.getDate(); // Returns the day of the month (from 1-31)
+		// var start_time_day = today.getDay(); // Returns the day of the week (from 0-6)
+		// var start_time_full_year = today.getFullYear() // Returns the year
+		// var start_time_hours = today.getHours(); // Returns the hour (from 0-23)
+		// var start_time_minutes = today.getMinutes(); // Returns the minutes (from 0-59)
+		// var start_time_seconds = today.getSeconds(); // Returns the seconds (from 0-59)
+		today.setHours(today.getHours() + parseInt(document.getElementById('hours').value));
+			let countDown = today.getTime(),
+		    x = setInterval(function() {
+
+		      let now = new Date().getTime(),
+		          distance = countDown - now;
+
+		        document.getElementById('hourstest').innerText = Math.floor((distance % (day)) / (hour)),
+		        document.getElementById('minutestest').innerText = Math.floor((distance % (hour)) / (minute)),
+		        document.getElementById('secondstest').innerText = Math.floor((distance % (minute)) / second);
+		      
+		    }, second)
+
+		    var end_time = today.toISOString();
+			// var end_time_year = today.getDate(); // Returns the day of the month (from 1-31)
+			// var end_time_day = today.getDay(); // Returns the day of the week (from 0-6)
+			// var end_time_full_year = today.getFullYear() // Returns the year
+			// var end_time_hours = today.getHours(); // Returns the hour (from 0-23)
+			// var end_time_minutes = today.getMinutes(); // Returns the minutes (from 0-59)
+			// var end_time_seconds = today.getSeconds(); // Returns the seconds (from 0-59)
+
+		    $.ajax({
+				url: 'time_stamp/create', 
+				type: 'POST',
+				headers: {
+				'Content-Type': 'application/json',
+				'X_CSRF-Token': document.getElementsByName('csrf-token')[0].content
+				},
+				data: JSON.stringify({	
+						"start_time": start_time,
+						"end_time": end_time,
+						// "start_time_year": String(start_time_year), 
+						// "start_time_day": String(start_time_day),
+						// "start_time_full_year": String(start_time_full_year),
+						// "start_time_hours": String(start_time_hours),
+						// "start_time_minutes": String(start_time_minutes),
+						// "start_time_seconds": String(start_time_seconds),
+						// "end_time_year": String(end_time_year), 
+						// "end_time_day": String(end_time_day),
+						// "end_time_full_year": String(end_time_full_year),
+						// "end_time_hours": String(end_time_hours),
+						// "end_time_minutes": String(end_time_minutes),
+						// "end_time_seconds": String(end_time_seconds)
+					}),
+				success: function(r) {
+
+				}
+		});
+	
+	};
+
+	console.log("hey down low");
+
+</script>
+
+<h1>
+	Tasks page
+</h1>
+<div class="container">
+  <ul>
+    Hours: <span id="hourstest"></span><br>
+    Minutes: <span id="minutestest"></span><br>
+    Seconds: <span id="secondstest"></span><br>
+  </ul>
+</div>
+<form>
+	Hours: <input id="hours" name="hours"><br>
+  	Minutes: <input id="minutes" name="minutes"><br>
+  	<br>
+    <input type="button" id='newTimer' value="Calculate" onclick="Calculate()" />
+</form>
+
+<br>
+<%= button_to "Create New Subject", new_subject_path, :class => "button medium", :method => :get %> 
